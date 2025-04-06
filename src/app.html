@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+	<body>
+		<!-- Fixed Layout -->
+		<div class="fixed-container">
+			<div class="image-panel">
+			  <img id="main-image" src="static/cheesecake.jpg" alt="Zoomable Image" />
+			</div>
+			<div class="text-panel">
+			  <div class="text-scroller" id="text-scroller">
+				<div class="text-line">Overall Image</div>
+				<div class="text-line">Zoom into Subset A</div>
+				<div class="text-line">Zoom Out to Overall Image</div>
+				<div class="text-line">Zoom into Subset B</div>
+				<div class="text-line">Zoom Out to Overall Image</div>
+			  </div>
+			</div>
+		  </div>
+		
+		  <!-- Scroll space to drive scrolling logic -->
+		  <div class="scroll-spacer" id="scroll-spacer"></div>
+		
+		  <!-- Outro Panel -->
+		  <div class="outro">
+			<div>
+			  <p>This is the outro section.</p>
+			  <p>You've reached the end. Add your message, links, or content here.</p>
+			</div>
+		  </div>
+		
+		  <script>
+			const zoomKeyframes = [
+			  { scale: 1, tx: 0, ty: 0 },
+			  { scale: 2.5, tx: 10, ty: -30 },
+			  { scale: 1, tx: 0, ty: 0 },
+			  { scale: 2.5, tx: 10, ty: -1 },
+			  { scale: 1, tx: 0, ty: 0 }
+			];
+		
+			const totalSteps = zoomKeyframes.length;
+			const vh = window.innerHeight;
+			const scrollDuration = totalSteps * vh;
+		
+			document.getElementById("scroll-spacer").style.height = `${scrollDuration}px`;
+		
+			const img = document.getElementById("main-image");
+			const textScroller = document.getElementById("text-scroller");
+		
+			function interpolate(a, b, t) {
+			  return a + (b - a) * t;
+			}
+		
+			function lerpZoom(progress) {
+			  const index = Math.floor(progress * totalSteps);
+			  const localT = (progress * totalSteps) - index;
+			  const from = zoomKeyframes[index];
+			  const to = zoomKeyframes[index + 1] || from;
+		
+			  const scale = interpolate(from.scale, to.scale, localT);
+			  const tx = interpolate(from.tx, to.tx, localT);
+			  const ty = interpolate(from.ty, to.ty, localT);
+		
+			  img.style.transform = `scale(${scale}) translate(${tx}%, ${ty}%)`;
+			}
+		
+			function lerpText(progress) {
+			  textScroller.style.transform = `translateY(-${progress * totalSteps * 100}vh)`;
+			}
+		
+			function onScroll() {
+			  const scrollTop = window.scrollY;
+			  const progress = Math.min(scrollTop / scrollDuration, 1);
+			  lerpZoom(progress);
+			  lerpText(progress);
+		
+			  // Once finished, let the user scroll into the outro
+			  const fixedContainer = document.querySelector(".fixed-container");
+			  fixedContainer.style.visibility = progress < 1 ? "visible" : "hidden";
+			}
+		
+			window.addEventListener("scroll", () => {
+			  requestAnimationFrame(onScroll);
+			});
+		  </script>
+	</body>
+
+	
+</html>

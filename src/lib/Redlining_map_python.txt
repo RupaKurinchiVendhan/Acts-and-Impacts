@@ -1,0 +1,40 @@
+import geopandas as gpd
+from shapely.geometry import MultiPolygon, Polygon
+
+# Convert the GeoJSON data into a GeoDataFrame
+features = geojson_data["features"]
+geometries = []
+categories = []
+colors = []
+
+# Extract relevant data
+for feature in features:
+    geometry_type = feature["geometry"]["type"]
+    coordinates = feature["geometry"]["coordinates"]
+    properties = feature["properties"]
+    
+    # Convert MultiPolygon to Shapely format
+    if geometry_type == "MultiPolygon":
+        polygons = [Polygon(poly[0]) for poly in coordinates]
+        shape = MultiPolygon(polygons)
+    elif geometry_type == "Polygon":
+        shape = Polygon(coordinates[0])
+    else:
+        continue
+
+    geometries.append(shape)
+    categories.append(properties["category"])
+    colors.append(properties.get("fill", "#cccccc"))  # Default color
+
+# Create a GeoDataFrame
+gdf = gpd.GeoDataFrame({"geometry": geometries, "category": categories, "color": colors})
+
+# Plot the map
+fig, ax = plt.subplots(figsize=(10, 6))
+gdf.plot(ax=ax, color=gdf["color"], edgecolor="black", linewidth=0.5)
+ax.set_title("D3.js Map Visualization (GeoJSON Data)")
+ax.set_xticks([])
+ax.set_yticks([])
+
+# Show the map
+plt.show()

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fixed Scroll Zoom to Outro</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'EB Garamond', serif;
+      overflow-x: hidden;
+      background: black;
+      color: white;
+    }
+
+    @font-face {
+      font-family: 'EB Garamond';
+      src: url('EB_Garamond/EBGaramond-VariableFont_wght.ttf');
+    }
+
+    /* Fixed layout during scroll */
+    .fixed-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      z-index: 2;
+    }
+
+    .image-panel {
+      flex: 3;
+      overflow: hidden;
+      position: relative;
+      background: black;
+    }
+
+    .text-panel {
+      flex: 1;
+      background: black;
+      color: white;
+      font-size: 1.2rem;
+      padding: 2rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .text-scroller {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      will-change: transform;
+    }
+
+    .text-line {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: transform 0.1s linear;
+      will-change: transform;
+    }
+
+    /* This drives the scroll duration */
+    .scroll-spacer {
+      height: 500vh; /* dynamically updated via JS */
+    }
+
+    /* Outro panel */
+    .outro {
+      height: 100vh;
+      background: black;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      text-align: center;
+      padding: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fixed Layout -->
+  <div class="fixed-container">
+    <div class="image-panel">
+      <img id="main-image" src="map3.png" alt="Zoomable Image" />
+    </div>
+    <div class="text-panel">
+      <div class="text-scroller" id="text-scroller">
+        <div class="text-line">Overall Image</div>
+        <div class="text-line">Zoom into Subset A</div>
+        <div class="text-line">Zoom Out to Overall Image</div>
+        <div class="text-line">Zoom into Subset B</div>
+        <div class="text-line">Zoom Out to Overall Image</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll space to drive scrolling logic -->
+  <div class="scroll-spacer" id="scroll-spacer"></div>
+
+  <!-- Outro Panel -->
+  <div class="outro">
+    <div>
+      <p>This is the outro section.</p>
+      <p>You've reached the end. Add your message, links, or content here.</p>
+    </div>
+  </div>
+
+  <script>
+    const zoomKeyframes = [
+      { scale: 1, tx: 0, ty: 0 },
+      { scale: 2.5, tx: 10, ty: -30 },
+      { scale: 1, tx: 0, ty: 0 },
+      { scale: 2.5, tx: 10, ty: -1 },
+      { scale: 1, tx: 0, ty: 0 }
+    ];
+
+    const totalSteps = zoomKeyframes.length;
+    const vh = window.innerHeight;
+    const scrollDuration = totalSteps * vh;
+
+    document.getElementById("scroll-spacer").style.height = `${scrollDuration}px`;
+
+    const img = document.getElementById("main-image");
+    const textScroller = document.getElementById("text-scroller");
+
+    function interpolate(a, b, t) {
+      return a + (b - a) * t;
+    }
+
+    function lerpZoom(progress) {
+      const index = Math.floor(progress * totalSteps);
+      const localT = (progress * totalSteps) - index;
+      const from = zoomKeyframes[index];
+      const to = zoomKeyframes[index + 1] || from;
+
+      const scale = interpolate(from.scale, to.scale, localT);
+      const tx = interpolate(from.tx, to.tx, localT);
+      const ty = interpolate(from.ty, to.ty, localT);
+
+      img.style.transform = `scale(${scale}) translate(${tx}%, ${ty}%)`;
+    }
+
+    function lerpText(progress) {
+      textScroller.style.transform = `translateY(-${progress * totalSteps * 100}vh)`;
+    }
+
+    function onScroll() {
+      const scrollTop = window.scrollY;
+      const progress = Math.min(scrollTop / scrollDuration, 1);
+      lerpZoom(progress);
+      lerpText(progress);
+
+      // Once finished, let the user scroll into the outro
+      const fixedContainer = document.querySelector(".fixed-container");
+      fixedContainer.style.visibility = progress < 1 ? "visible" : "hidden";
+    }
+
+    window.addEventListener("scroll", () => {
+      requestAnimationFrame(onScroll);
+    });
+  </script>
+
+</body>
+</html>
