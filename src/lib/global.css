@@ -1,97 +1,16 @@
 @font-face{
   font-family: 'EB Garamond';
-  src: url('EB_Garamond/EBGaramond-VariableFont_wght.ttf'),
-}
-/* html, body {
-margin: 0;
-padding: 0;
-font-family: sans-serif;
-overflow-x: hidden;
-} */
-html, body {
-  margin: 0;
-  padding: 0;
-  font-family: 'EB Garamond', serif;
-  overflow-x: hidden;
-  background: black;
-  color: white;
+  src: url('static/EB_Garamond/EBGaramond-VariableFont_wght.ttf'),
 }
 
-.sticky-container {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100vh;
-display: flex;
-z-index: 10;
+@font-face{
+  font-family: 'Courier New';
+  src: url('static/Courier_Prime/CourierPrime-Regular.ttf'),
 }
 
-.image-panel {
-flex: 3;
-overflow: hidden;
-position: relative;
-}
-
-.image-panel img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: transform 0.1s linear;
-  will-change: transform;
-}
-
-.text-panel {
-flex: 1;
-background: black;
-color: white;
-font-family:Co ;
-font-size: 1.2rem;
-display: flex;
-align-items: flex-start;
-justify-content: center;
-text-align: center;
-padding: 2rem;
-overflow: hidden;
-position: relative;
-}
-
-.text-scroller {
-will-change: transform;
-}
-
-.text-line {
-height: 100vh;
-display: flex;
-align-items: center;
-justify-content: center;
-}
-
-img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-position: absolute;
-top: 0;
-left: 0;
-will-change: transform;
-transition: transform 0.1s linear;
-}
-
-.scroll-wrapper {
-position: relative;
-z-index: 1;
-}
-
-.step {
-height: 100vh;
-}
 
 body {
-	font: 100%/1.5 system-ui, sans-serif;
+	font-family:'EB Garamond', serif;
 	display: flex;
 	flex-flow: column;
 	max-width: 80em;
@@ -99,6 +18,8 @@ body {
 	box-sizing: border-box;
 	margin: auto;
 	padding: 1em;
+  color: white;
+  background-color: black;
 }
 
 #map {
@@ -107,41 +28,89 @@ body {
 }
 
 
-  #map2 {
-    height: 500px;
-    /*width: 500px;*/
-    border: 1px solid #ccc; /* Optional: visual boundary */
-  }
-
-
-
-  #tooltip {
+#tooltip {
     position: absolute;
     background: white;
     border: 1px solid #aaa;
+    color:black;
     padding: 6px 10px;
     border-radius: 6px;
     font-size: 13px;
     line-height: 1.4;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
     pointer-events: none;
-    z-index: 1000;
-    max-width: 240px;
+    z-index: 99999;
+    max-width: 300px;
+    font-family:'EB Garamond', serif;
 }
 
-.fixed-container {
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: row;
+
+.container {
+  display: flex; /* Arranges the child elements side by side */
+  }
+
+
+
+#toolbox-container {
+  position: absolute;
+  left: 720px; /* Position to the right of the map, adjust based on the exact placement desired */
+  top: 20px; /* Position with respect to the top, adjust as needed */
+  z-index: 1100;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family:'Courier New', serif;
+  font-size: 10px;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  background:
+    linear-gradient(to top, black, transparent 2%),
+    linear-gradient(to bottom, black, transparent 2%),
+    linear-gradient(to left, black, transparent 2%),
+    linear-gradient(to right, black, transparent 2%);
+}
+
+
+#categoryFilter {
+  font-size: 10px;
+  font-family:'Courier New', serif;
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  background-color: #fff;
+  color: black;
+  cursor: pointer;
+}
+
+/* #map2 {
+  height: 500px;
+  width: 700px;
+  border: 1px solid #ccc;
+} */
+#map2 {
+  position: relative;
+  height: 500px;
+  width: 700px;
+  border: none; /* Remove default border */
+  background: black; /* Optional, or transparent */
+  overflow: hidden; /* Important for pseudo-element clipping */
+}
+
+#map2::before {
+  content: '';
+  position: absolute;
+  inset: 0; /* top: 0; right: 0; bottom: 0; left: 0; shorthand */
+  pointer-events: none; /* Let interactions go through */
+  background:
+    linear-gradient(to top, black, transparent 2%),
+    linear-gradient(to bottom, black, transparent 2%),
+    linear-gradient(to left, black, transparent 2%),
+    linear-gradient(to right, black, transparent 2%);
   z-index: 10;
-  background-color: white; /* Or transparent depending on needs */
 }
 
-/* Outro panel */
+
 .outro {
   height: 100vh;
   background: black;
@@ -153,4 +122,21 @@ body {
   font-family: 'EB Garamond', serif;
   text-align: center;
   padding: 2rem;
+}
+
+.scroll-wrapper {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+section {
+  scroll-snap-align: start;
+  height: 100vh; /* each section fills full viewport */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  box-sizing: border-box;
 }

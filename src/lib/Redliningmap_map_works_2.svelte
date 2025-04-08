@@ -22,7 +22,8 @@ Using map from mapbox -->
     
         map.on('load', () => {
             // Load and deduplicate the GeoJSON
-            fetch('static/final_polygons_with_affordability.geojson')
+            //fetch('static/final_polygons_with_affordability.geojson')
+            fetch('static/updated_final_polygons_with_affordability_4.geojson')
                 .then(response => response.json())
                 .then(data => {
                     const uniqueFeaturesMap = new Map();
@@ -45,6 +46,28 @@ Using map from mapbox -->
                         data: deduplicatedGeoJSON
                     });
     
+                    // filter 
+                    const getBaseFilter = (grade = 'all') => {
+                    const filter = [
+                        'all',
+                        ['==', ['get', 'residential'], true],
+                        ['has', 'normalized_affordability'],
+                        ['>=', ['get', 'normalized_affordability'], 0],
+                        ['<=', ['get', 'normalized_affordability'], 1]
+                    ];
+
+                    if (grade !== 'all') {
+                        filter.push(['==', ['get', 'grade'], grade]);
+                    }
+
+                    return filter;
+                };
+                document.getElementById('categoryFilter').addEventListener('change', (event) => {
+                const selected = event.target.value;
+                map.setFilter('redlining', getBaseFilter(selected));
+            });
+
+
                     // Add layer with solid color styling
                     map.addLayer({
                         id: 'redlining',
@@ -53,9 +76,9 @@ Using map from mapbox -->
                         paint: {
                             'fill-color': [
                                 'case',
-                                ['<', ['get', 'normalized_affordability'], 0.33], '#00FF00',
-                                ['<', ['get', 'normalized_affordability'], 0.5], '#FFFF00',
-                                '#FF0000'
+                                ['<', ['get', 'normalized_affordability'], 0.3], '#FF0000',
+                                ['<', ['get', 'normalized_affordability'], 0.4], '#FFFF00',
+                                '#00FF00' 
                             ],
                             'fill-opacity': 0.5,
                             'fill-outline-color': 'white'
@@ -103,24 +126,31 @@ Using map from mapbox -->
                             const props = feature.properties;
     
                             const city = props.city ? props.city.charAt(0).toUpperCase() + props.city.slice(1).toLowerCase() : 'N/A';
+                            const category = props.category ? props.category : 'N/A';
 
-                            const averagePrice = props.average_price ? `$${Number(props.average_price).toLocaleString()}` : 'N/A';
-                            const medianIncome = props.estimated_median_income ? `$${Number(props.estimated_median_income).toLocaleString()}` : 'N/A';
+                            const averagePrice = props.average_price ? `$${parseFloat(props.average_price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}` : 'N/A';
+    
+                            const medianIncome = props.estimated_median_income ? `$${parseFloat(props.estimated_median_income).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}` : 'N/A';
                             const affordability = props.normalized_affordability !== undefined ? props.normalized_affordability.toFixed(2) : 'N/A';
                             
+                            const areaID = props.area_id ? props.area_id : 'N/A';
+
                             
                             const tooltipHtml = `
-                                <strong>City:</strong> ${city}<br>
-                                <strong>Average Price:</strong> ${averagePrice}<br>
-                                <strong>Median Income:</strong> ${medianIncome}<br>
-                                <strong>Normalized Affordability:</strong> ${affordability}<br>
+                                <strong> 🏙️ City:</strong> ${city}<br>
+                                <strong> 🏷️ Category:</strong> ${category}<br>
+                                <strong> 🏠 Average Housing Price:</strong> ${averagePrice}<br>
+                                <strong> 💵 Median Household Income:</strong> ${medianIncome}<br>
+                                <strong> 📊 Normalized Affordability Ratio:</strong> ${affordability}<br>
+                                
+
                             `;
     
                             const tooltip = document.getElementById('tooltip');
                             tooltip.innerHTML = tooltipHtml;
                             tooltip.style.display = 'block';
-                            tooltip.style.left = `${e.point.x + 10}px`;
-                            tooltip.style.top = `${e.point.y+150}px`;
+                            tooltip.style.left = `${e.point.x + 50}px`;
+                            tooltip.style.top = `${e.point.y+80}px`;
 
 
                         }
@@ -130,6 +160,7 @@ Using map from mapbox -->
                     map.on('mouseleave', 'redlining', function () {
                         document.getElementById('tooltip').style.display = 'none';
                     });
+                    
                 });
         });
     });

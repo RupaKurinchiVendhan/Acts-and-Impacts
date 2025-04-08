@@ -1,3 +1,7 @@
+<svelte:head>
+  <title>FP2 - Acts and Impacts</title>
+</svelte:head>
+
 <script>
 //import Redliningmap_display from '$lib/Redliningmap_display.svelte';
 //import Redliningmap_map_v1 from '$lib/Redliningmap_map_v1.svelte';
@@ -96,18 +100,73 @@ onMount(() => {
    
 </style>
 
-<h1>FP2 Interactive Map</h1>
-<h2>Housing affordability ratio in historically redlining areas</h2>
+<!-- <h1>FP2 Interactive Map</h1>
+<h2>Housing affordability ratio in historically redlining areas</h2> -->
  
-<div id="tooltip"></div>
+
 <!--
 <p> Redlining map 1. Fill cities based on status. Redlining json used </p>
 <div id="map" style="height: 800px; margin-bottom: 20px;"></div>
 -->
-<p>Housing affordability ratio is calculated as a ratio between the median housing income and 
-    the annual average housing price.
-</p>
 
-<p>Click in the map and explore the different cities. </p>
 
-<div id="map2"></div>
+<div id="tooltip"></div>
+<div class="scroll-wrapper">
+    <section class="outro">
+        <div>
+          <p>
+            Housing affordability is shaped by how housing prices compare to income.
+          </p>
+          
+          <img src="static/ratio.gif" alt="Housing affordability ratio illustration" style="margin-top: 16px; max-width: 50%; height: auto;" />
+        </div>
+        <p>
+            Explore housing affordability by neighborhood in the Greater Boston area below.
+          </p>
+      </section>
+      
+  
+    <section class="map-section">
+        <div class="container" style="position: relative;">
+
+            <!-- filter menu-->
+            <div id="toolbox-container">
+                <label for="categoryFilter">FILTER BY REDLINING CATEGORY:</label>
+                <select id="categoryFilter">
+                    <option value="all">ALL CATEGORIES</option>
+                    <option value="A">BEST</option>
+                    <option value="B">STILL DESIRABLE</option>
+                    <option value="C">DEFINITELY DECLINING</option>
+                    <option value="D">HAZARDOUS</option>
+                </select>
+            </div>
+            
+        
+            <!-- map -->
+            <div id="map2"></div>
+            
+        
+        </div>
+    </section>
+
+
+    <!-- <section class="outro">
+        <div>
+          <p>
+            Housing affordability is shaped by how housing prices compare to income.
+          </p>
+          
+          <img src="static/ratio.gif" alt="Housing affordability ratio illustration" style="margin-top: 16px; max-width: 50%; height: auto;" />
+        </div>
+        <p>
+            Explore housing affordability by neighborhood in the Greater Boston area below.
+          </p>
+      </section> -->
+  </div>
+
+
+
+
+
+
+
