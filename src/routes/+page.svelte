@@ -109,60 +109,40 @@ onMount(() => {
 <div id="map" style="height: 800px; margin-bottom: 20px;"></div>
 -->
 
+<body>
 
-<div id="tooltip"></div>
-<div class="scroll-wrapper">
-    <section class="outro">
-        <div>
-          <p>
-            Housing affordability is shaped by how housing prices compare to income.
-          </p>
-          
-          <img src="ratio.gif" alt="Housing affordability ratio illustration" style="margin-top: 16px; max-width: 50%; height: auto;" />
-        </div>
-        <p>
-            Explore housing affordability by neighborhood in the Greater Boston area below.
-          </p>
-      </section>
+    <div id="tooltip"></div>
+
+    <div id="scroll-container">
+        <section class="outro">
+          <div>
+            <p>Housing affordability is shaped by how housing prices compare to income.</p>
+            <img src="ratio.gif" alt="Housing affordability ratio illustration"
+                 style="margin-top: 16px; max-width: 50%; height: auto;" />
+          </div>
+          <p>Explore housing affordability by neighborhood in the Greater Boston area below.</p>
+        </section>
       
-  
-    <section class="map-section">
-        <div class="container" style="position: relative;">
-
-            <!-- filter menu-->
+        <section class="map-section">
+          <div class="container" style="position: relative;">
             <div id="toolbox-container">
-                <label for="categoryFilter">FILTER BY REDLINING CATEGORY:</label>
-                <select id="categoryFilter">
-                    <option value="all">ALL CATEGORIES</option>
-                    <option value="A">BEST</option>
-                    <option value="B">STILL DESIRABLE</option>
-                    <option value="C">DEFINITELY DECLINING</option>
-                    <option value="D">HAZARDOUS</option>
-                </select>
+              <label for="categoryFilter">FILTER BY REDLINING CATEGORY:</label>
+              <select id="categoryFilter">
+                <option value="all">ALL CATEGORIES</option>
+                <option value="A">BEST</option>
+                <option value="B">STILL DESIRABLE</option>
+                <option value="C">DEFINITELY DECLINING</option>
+                <option value="D">HAZARDOUS</option>
+              </select>
             </div>
-            
-        
-            <!-- map -->
             <div id="map2"></div>
-            
-        
-        </div>
-    </section>
+          </div>
+        </section>
+      </div>
+      
 
+</body>
 
-    <!-- <section class="outro">
-        <div>
-          <p>
-            Housing affordability is shaped by how housing prices compare to income.
-          </p>
-          
-          <img src="static/ratio.gif" alt="Housing affordability ratio illustration" style="margin-top: 16px; max-width: 50%; height: auto;" />
-        </div>
-        <p>
-            Explore housing affordability by neighborhood in the Greater Boston area below.
-          </p>
-      </section> -->
-  </div>
 
 
 
