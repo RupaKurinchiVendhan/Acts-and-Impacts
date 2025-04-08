@@ -118,7 +118,7 @@ onMount(() => {
             Housing affordability is shaped by how housing prices compare to income.
           </p>
           
-          <img src="static/ratio.gif" alt="Housing affordability ratio illustration" style="margin-top: 16px; max-width: 50%; height: auto;" />
+          <img src="./static/ratio.gif" alt="Housing affordability ratio illustration" style="margin-top: 16px; max-width: 50%; height: auto;" />
         </div>
         <p>
             Explore housing affordability by neighborhood in the Greater Boston area below.
