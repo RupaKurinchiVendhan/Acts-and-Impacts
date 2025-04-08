@@ -23,7 +23,7 @@ Using map from mapbox -->
         map.on('load', () => {
             // Load and deduplicate the GeoJSON
             //fetch('static/final_polygons_with_affordability.geojson')
-            fetch('.static/updated_final_polygons_with_affordability_4.geojson')
+            fetch('../static/updated_final_polygons_with_affordability_4.geojson')
                 .then(response => response.json())
                 .then(data => {
                     const uniqueFeaturesMap = new Map();
