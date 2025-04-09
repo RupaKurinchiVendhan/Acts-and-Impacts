@@ -139,7 +139,7 @@ onMount(() => {
           
                 <!-- Dropdown toggle -->
                 <div id="dropdown-toggle" class="dropdown-toggle">
-                  <span>Want more information on how housing affordability is calculated?</span>
+                  <span><strong>Want more information on how housing affordability is calculated?</strong></span>
                   <span class="arrow">&#9660;</span>
                 </div>
           

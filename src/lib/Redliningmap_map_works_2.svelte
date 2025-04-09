@@ -125,7 +125,13 @@ Using map from mapbox -->
                             const coordinates = e.lngLat;
                             const props = feature.properties;
     
-                            const city = props.city ? props.city.charAt(0).toUpperCase() + props.city.slice(1).toLowerCase() : 'N/A';
+                            const city = props.city
+                                ? props.city
+                                    .toLowerCase()
+                                    .split(' ')
+                                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                    .join(' ')
+                                : 'N/A';
                             const category = props.category ? props.category : 'N/A';
 
                             const averagePrice = props.average_price ? `$${parseFloat(props.average_price).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}` : 'N/A';
