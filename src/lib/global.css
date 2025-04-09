@@ -56,14 +56,14 @@ body {
 #toolbox-container {
   position: absolute;
   left: 720px; /* Position to the right of the map, adjust based on the exact placement desired */
-  top: 20px; /* Position with respect to the top, adjust as needed */
+  top: 73px; /* Position with respect to the top, adjust as needed */
   z-index: 1100;
   background: rgba(255, 255, 255, 0.95);
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 10px 14px;
   font-family:'Courier New', serif;
-  font-size: 12px;
+  font-size: 16px;
   color: white;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   background:
@@ -71,11 +71,13 @@ body {
     linear-gradient(to bottom, black, transparent 2%),
     linear-gradient(to left, black, transparent 2%),
     linear-gradient(to right, black, transparent 2%);
+  width: 600px;
+  overflow-wrap: break-word;
 }
 
 
 #categoryFilter {
-  font-size: 10px;
+  font-size: 16px;
   font-family:'Courier New', serif;
   padding: 6px 10px;
   border-radius: 4px;
@@ -140,4 +142,114 @@ section {
   justify-content: center;
   padding: 2rem;
   box-sizing: border-box;
+}
+.first-section {
+  position: relative; /* Makes the arrow stay inside this section */
+}
+
+#scroll-arrow {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.5rem;
+  background: none;
+  color: white;
+  border: none;
+  cursor: pointer;
+  animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+  }
+}
+
+.dropdown-content {
+  display: none;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: white;
+  font-family: 'EB Garamond', serif;
+  transition: max-height 0.3s ease;
+  overflow: hidden;
+  text-align: left;
+}
+
+.dropdown-content.open {
+  display: block;
+}
+
+.dropdown-toggle {
+  margin-top: 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  color: white;
+  border-top: 1px solid white;
+  padding-top: 0.5rem;
+}
+
+.dropdown-toggle .arrow {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-toggle.open .arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-content ul {
+  padding-left: 1.2em;
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+
+
+#map-legend {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-family: 'Courier New', serif;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+#map-legend div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.legend-color {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+#map-title {
+  font-family: 'EB Garamond', serif;
+  color: white;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+#map2-container {
+  position: relative;
 }

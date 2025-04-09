@@ -137,11 +137,11 @@ Using map from mapbox -->
 
                             
                             const tooltipHtml = `
-                                <strong> 🏙️ City:</strong> ${city}<br>
-                                <strong> 🏷️ Category:</strong> ${category}<br>
-                                <strong> 🏠 Average Housing Price:</strong> ${averagePrice}<br>
-                                <strong> 💵 Median Household Income:</strong> ${medianIncome}<br>
-                                <strong> 📊 Normalized Affordability Ratio:</strong> ${affordability}<br>
+                                <strong> City:</strong> ${city}<br>
+                                <strong> Category:</strong> ${category}<br>
+                                <strong> Average Housing Price:</strong> ${averagePrice}<br>
+                                <strong> Median Household Income:</strong> ${medianIncome}<br>
+                                <strong> Normalized Affordability Ratio:</strong> ${affordability}<br>
                                 
 
                             `;
@@ -149,8 +149,8 @@ Using map from mapbox -->
                             const tooltip = document.getElementById('tooltip');
                             tooltip.innerHTML = tooltipHtml;
                             tooltip.style.display = 'block';
-                            tooltip.style.left = `${e.point.x + 50}px`;
-                            tooltip.style.top = `${e.point.y+80}px`;
+                            tooltip.style.left = `${e.point.x + 80}px`;
+                            tooltip.style.top = `${e.point.y+150}px`;
 
 
                         }

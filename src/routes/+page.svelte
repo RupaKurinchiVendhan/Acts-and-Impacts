@@ -108,40 +108,89 @@ onMount(() => {
 <p> Redlining map 1. Fill cities based on status. Redlining json used </p>
 <div id="map" style="height: 800px; margin-bottom: 20px;"></div>
 -->
-
 <body>
+  
 
     <div id="tooltip"></div>
-
     <div id="scroll-container">
-        <section class="outro">
+        <section class="outro first-section">
           <div>
             <p>Housing affordability is shaped by how housing prices compare to income.</p>
             <img src="ratio.gif" alt="Housing affordability ratio illustration"
                  style="margin-top: 16px; max-width: 50%; height: auto;" />
           </div>
           <p>Explore housing affordability by neighborhood in the Greater Boston area below.</p>
+      
+          <!-- Arrow Button (inside only this section) -->
+          <button id="scroll-arrow" aria-label="Scroll to map">&#8595;</button>
         </section>
       
         <section class="map-section">
-          <div class="container" style="position: relative;">
-            <div id="toolbox-container">
-              <label for="categoryFilter">FILTER BY REDLINING CATEGORY:</label>
-              <select id="categoryFilter">
-                <option value="all">ALL CATEGORIES</option>
-                <option value="A">BEST</option>
-                <option value="B">STILL DESIRABLE</option>
-                <option value="C">DEFINITELY DECLINING</option>
-                <option value="D">HAZARDOUS</option>
-              </select>
+            <div class="container" style="position: relative;">
+              <div id="toolbox-container">
+                <label for="categoryFilter">TRY FILTERING BY REDLINING CATEGORY:</label>
+                <select id="categoryFilter">
+                  <option value="all">ALL CATEGORIES</option>
+                  <option value="A">BEST</option>
+                  <option value="B">STILL DESIRABLE</option>
+                  <option value="C">DEFINITELY DECLINING</option>
+                  <option value="D">HAZARDOUS</option>
+                </select>
+          
+                <!-- Dropdown toggle -->
+                <div id="dropdown-toggle" class="dropdown-toggle">
+                  <span>Want more information on how housing affordability is calculated?</span>
+                  <span class="arrow">&#9660;</span>
+                </div>
+          
+                <!-- Hidden content -->
+                <div id="dropdown-content" class="dropdown-content">
+                    <p>The average annual housing price is calculated from the total housing price using the mortgage loan amortization calculation.</p>
+                    <p>The monthly payment of a house is calculated using the formula: 
+                        <strong>M = P × (r(1 + r)<sup>n</sup>) / ((1 + r)<sup>n-1</sup>)</strong>, where:
+                        <ul>
+                            <li><strong>P</strong> is the total price after an 18% downpayment,</li>
+                            <li><strong>r</strong> is the monthly interest rate (3.5%),</li>
+                            <li><strong>n</strong> is the number of payments (30 years).</li>
+                        </ul>
+                    <p>The annual housing price per neighborhood would be 12 times this monthly payment number. Estimated median household income is extracted from 2020 census data, based on records per city.</p>
+                </div>
+              </div>
+          
+              <div id="map2-container">
+                <h2>Housing Affordability per Neighborhood in Greater Boston, in 2020</h2>
+                <!-- <div id="map-title-overlay">Housing Affordability in Redlined Neighborhoods</div> -->
+                <div id="map2"></div>
+              </div>
+              
+              <div id="map-legend">
+                <div><span class="legend-color" style="background-color: #00FF00;"></span> MORE AFFORDABLE</div>
+                <div><span class="legend-color" style="background-color: #FFFF00;"></span> MODERATELY AFFORDABLE</div>
+                <div><span class="legend-color" style="background-color: #FF0000;"></span> LESS AFFORDABLE</div>
+              </div>
             </div>
-            <div id="map2"></div>
-          </div>
-        </section>
-      </div>
+          </section>
+          
       
-
-</body>
+      
+    <script>
+        document.getElementById("scroll-arrow").addEventListener("click", () => {
+        const scrollContainer = document.getElementById("scroll-container");
+        const nextSection = scrollContainer.querySelectorAll("section")[1];
+        nextSection.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+    
+        // Dropdown toggle logic
+        document.getElementById("dropdown-toggle").addEventListener("click", () => {
+        const toggle = document.getElementById("dropdown-toggle");
+        const content = document.getElementById("dropdown-content");
+        toggle.classList.toggle("open");
+        content.classList.toggle("open");
+        });
+    </script>
+      
+  
+  </body>
 
 
 
